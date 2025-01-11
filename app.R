@@ -15,108 +15,37 @@ library(bslib)
 
 
 # Define UI for app that draws a histogram ----
-ui <- page_fluid(
-  titlePanel("Basic Widgets"),
-  layout_columns(
-    col_widths = 3,
-    card(
-      card_header( "Buttons"),
-      actionButton("action", "Action"),
-      submitButton("Submit"),
-    ),
-    card(
-      card_header("Single checkbox"),
-      checkboxInput("checkbox", "Choice A", value = TRUE),
-      checkboxInput("checkbox", "Choice B", value = FALSE)
-    ),
-    
-    card(
-      card_header("Checkbox group"),
-      checkboxGroupInput(
-        "checkGroup",
-        "Select all that apply",
-        choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
-        selected = 1
-      ) 
-      ),
-    
-  card(
-    card_header("Date Input"),
-    dateInput("date", "Select date", value = "2025-01-03")
-  ),
-  
-  card(
-    card_header("File input"),
-    fileInput("file", label = NULL)
-  ),
-  
-  card(
-    card_header("Help Text"),
-    helpText("Note: help isn't a real widget",
-             "but it provides an easy way to add text to",
-             "accompany other widgets")
-    ),
-  
-  card(
-    card_header("Numeric Input"),
-    numericInput("num", "Input number", value = 1)
-  ),
-  
-  card(
-    card_header("Radio Buttons"),
-    radioButtons(
-      "radio", 
-      "Select Option",
-      choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
-      selected = 3
-      )
-  ),
-  
-  card(
-    card_header("Select Box"),
+ui <- page_sidebar(
+  title = "censusVis",
+  sidebar = sidebar(
+    helpText("Create demagraphic maps with information from the from the US 2010 consensus"),
     selectInput(
       "select",
-      "Select option",
-      choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3),
-      selected = 1
-    )
-  ),
-  
-  card(
-    card_header("sliders"),
-    sliderInput(
-      "slider 1",
-      "Set value",
-      min = 0,
-      max = 100,
-      value = 50
+      label = "Choose variable to display",
+      choices = list("Percent White", "Percent Black" , "Percent Hispanic" , "Percent Asian" ),
+      selected = "Percent White"
     ),
+      sliderInput(
+        "slider",
+        label = "Range of interest to display",
+        min = 0,
+        max = 100,
+        value = c(0,100)
+    )
     
-    sliderInput(
-      "slider 2",
-      "Set value range",
-      min = 0,
-      max = 100,
-      value = c(25, 75)
-    )
-  ),
-  
-  card(
-    card_header("Text input"),
-    textInput("text", label = NULL, value = "Enter text here...")
-  ),
-  
-  card(
-    card_header(" Date Range"),
-    dateRangeInput( "dates", "Select dates")
   )
+)
+
+    
+  
+  
+
   
   
   
   
   
-    )
-  )
+  
 
 
 
