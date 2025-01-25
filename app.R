@@ -14,6 +14,17 @@ library(shiny)
 library(bslib)
 
 
+counties <- readRDS("/Users/a40/Desktop/Work/App-1/Data/counties.rds")
+head(counties)
+
+install.packages("maps")
+install.packages("mapproj")
+
+library(mapproj)
+source("/Users/a40/Desktop/Work/App-1/helpers.R")
+
+percent_map(counties$white, "darkgreen", "%White")
+
 # Define UI for app that draws a histogram ----
 ui <- page_sidebar(
   title = "censusVis",
@@ -34,23 +45,33 @@ ui <- page_sidebar(
     )
     
   ),
-  mainPanel(
-  textOutput("selected_var"),
-  textOutput("min_max")
-  )
+  card(plotOutput("map"))
 )
 
     
 
 # Define server logic required to draw a histogram ---
 server <- function(input, output) {
-  
-  output$selected_var <- renderText({
-   paste("You have selected this", input$var)
-  })
-  
-  output$min_max <- renderText({
-    paste("You have chosen a range that goes from", input$slider[1], "to", input$slider[2])
+  output$map <- renderPlot({
+    data <- switch(input$var,
+                   "Percent White" = counties$white,
+                   "Percent Black" = counties$black,
+                   "Percent Hispanic" = counties$hispanic,
+                   "Percent Asian" = counties$asian)
+    
+    color <- switch(input$var,
+                    "Percent White" = "darkgreen",
+                    "Percent Black" = "black",
+                    "Percent Hispanic" = "darkorange",
+                    "Percent Asian" = "darkviolet")
+    
+    legend <- switch(input$var,
+                     "Percent White" = "% White",
+                     "Percent Black" = "% Black",
+                     "Percent Hispanic" = "% Hispanic",
+                     "Percent Asian" = "% Asian")
+    
+    percent_map(data, color, legend, input$slider[1], input$slider[2])
   })
 }
 
